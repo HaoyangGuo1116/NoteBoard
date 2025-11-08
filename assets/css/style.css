@@ -11,6 +11,37 @@
   --link-hover-background: rgba(0, 0, 0, 0.05);
   --toggle-background: rgba(0, 0, 0, 0.05);
   --toggle-text: #333333;
+  --card-texture: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0.4) 0%,
+      rgba(255, 255, 255, 0.1) 35%,
+      rgba(255, 255, 255, 0.35) 100%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(199, 181, 138, 0.12) 0,
+      rgba(199, 181, 138, 0.12) 2px,
+      rgba(255, 255, 255, 0.2) 2px,
+      rgba(255, 255, 255, 0.2) 5px
+    );
+  --card-fiber-texture: radial-gradient(
+      circle at 20% 20%,
+      rgba(170, 148, 109, 0.16),
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 80% 25%,
+      rgba(170, 148, 109, 0.08),
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 50% 80%,
+      rgba(170, 148, 109, 0.14),
+      transparent 55%
+    );
+  --card-fiber-opacity: 0.5;
+  --illustration-filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.3));
+  --create-illustration-filter: drop-shadow(0 18px 25px rgba(0, 0, 0, 0.25));
   --max-width: 960px;
   --transition-fast: 0.2s ease-in-out;
 }
@@ -27,6 +58,35 @@ body.dark-theme {
   --link-hover-background: rgba(255, 255, 255, 0.12);
   --toggle-background: rgba(255, 255, 255, 0.12);
   --toggle-text: #f3f4f6;
+  --card-texture: linear-gradient(
+      130deg,
+      rgba(37, 42, 53, 0.55) 0%,
+      rgba(37, 42, 53, 0.35) 40%,
+      rgba(65, 72, 88, 0.5) 100%
+    ),
+    repeating-linear-gradient(
+      0deg,
+      rgba(255, 255, 255, 0.045) 0,
+      rgba(255, 255, 255, 0.045) 2px,
+      rgba(0, 0, 0, 0.08) 2px,
+      rgba(0, 0, 0, 0.08) 5px
+    );
+  --card-fiber-texture: radial-gradient(
+      circle at 15% 15%,
+      rgba(255, 255, 255, 0.08),
+      transparent 55%
+    ),
+    radial-gradient(circle at 75% 25%, rgba(0, 0, 0, 0.3), transparent 55%),
+    radial-gradient(
+      circle at 45% 85%,
+      rgba(255, 255, 255, 0.05),
+      transparent 60%
+    );
+  --card-fiber-opacity: 0.35;
+  --illustration-filter: invert(0.92) saturate(0.75) hue-rotate(10deg)
+    drop-shadow(0 14px 20px rgba(0, 0, 0, 0.55));
+  --create-illustration-filter: invert(0.92) saturate(0.75) hue-rotate(10deg)
+    drop-shadow(0 20px 28px rgba(0, 0, 0, 0.6));
 }
 
 *,
@@ -105,8 +165,8 @@ a {
   background: var(--toggle-background);
   color: var(--toggle-text);
   font-size: 1.1rem;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast),
-    background-color var(--transition-fast);
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast), background-color var(--transition-fast);
 }
 
 .navbar__toggle:hover,
@@ -130,11 +190,15 @@ main {
 /* Sticky note卡片通用样式 */
 .sticky-card {
   background: var(--card-color);
-  box-shadow: 0 12px 20px -10px var(--shadow-color), 0 2px 6px var(--shadow-color);
+  background-image: var(--card-texture);
+  box-shadow: 0 12px 20px -10px var(--shadow-color),
+    0 2px 6px var(--shadow-color);
   padding: 1.5rem;
   border-radius: 0.5rem;
   position: relative;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  overflow: hidden;
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast);
 }
 
 .sticky-card::after {
@@ -144,13 +208,31 @@ main {
   right: 0.75rem;
   width: 1.25rem;
   height: 1.25rem;
-  background: radial-gradient(circle at center, rgba(0, 0, 0, 0.12) 30%, transparent 32%);
+  background: radial-gradient(
+    circle at center,
+    rgba(0, 0, 0, 0.12) 30%,
+    transparent 32%
+  );
   opacity: 0.5;
+  z-index: 1;
+}
+
+.sticky-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: var(--card-fiber-texture);
+  opacity: var(--card-fiber-opacity);
+  mix-blend-mode: overlay;
+  z-index: 0;
 }
 
 .sticky-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 16px 24px -12px var(--shadow-color), 0 6px 12px -6px var(--shadow-color);
+  box-shadow: 0 16px 24px -12px var(--shadow-color),
+    0 6px 12px -6px var(--shadow-color);
 }
 
 .quote-text {
@@ -166,6 +248,30 @@ main {
   justify-content: center;
   min-height: calc(100vh - 120px);
   padding: 2rem 1.5rem;
+}
+
+.quote-layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+}
+
+.quote-illustration {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 260px;
+  flex: 0 0 auto;
+  transform: translateX(-6px);
+}
+
+.quote-illustration img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: var(--illustration-filter);
 }
 
 /* Notes page */
@@ -256,6 +362,36 @@ main {
   gap: 0.75rem;
 }
 
+.create-layout {
+  display: flex;
+  align-items: stretch;
+  gap: 2rem;
+}
+
+.create-layout .form-card {
+  flex: 1 1 50%;
+  max-width: none;
+  margin: 0;
+  height: 100%;
+}
+
+.create-illustration {
+  margin: 0;
+  flex: 1 1 50%;
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.create-illustration img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  filter: var(--create-illustration-filter);
+  max-width: 420px;
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
@@ -265,7 +401,8 @@ main {
   border-radius: 999px;
   font-weight: 600;
   cursor: pointer;
-  transition: transform var(--transition-fast), box-shadow var(--transition-fast);
+  transition: transform var(--transition-fast),
+    box-shadow var(--transition-fast);
   box-shadow: 0 10px 18px -12px var(--shadow-color);
 }
 
@@ -296,6 +433,108 @@ main {
   display: block;
 }
 
+@media (max-width: 1024px) {
+  .navbar__inner {
+    padding: 0.75rem 1.25rem;
+  }
+
+  .page-container {
+    padding: 2rem 1.25rem 3.5rem;
+  }
+
+  .quote-page {
+    padding: 2rem 1.25rem;
+    min-height: calc(100vh - 140px);
+  }
+
+  .quote-layout {
+    gap: 2rem;
+  }
+
+  .quote-illustration {
+    max-width: 240px;
+  }
+
+  .create-layout {
+    gap: 1.5rem;
+  }
+
+  .create-illustration img {
+    max-width: 360px;
+  }
+
+  .sticky-card {
+    padding: 1.35rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar__inner {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .navbar__controls {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .navbar__links {
+    justify-content: center;
+    flex: 1;
+  }
+
+  .navbar__brand {
+    text-align: center;
+  }
+
+  .quote-text {
+    font-size: 1.35rem;
+  }
+
+  .quote-layout {
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+
+  .quote-illustration {
+    max-width: 220px;
+  }
+
+  .create-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .create-layout .form-card {
+    width: 100%;
+  }
+
+  .create-illustration {
+    margin: 1.75rem auto 0;
+    max-width: 300px;
+  }
+
+  .sticky-card {
+    padding: 1.25rem;
+  }
+
+  .notes-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  }
+
+  .form-card {
+    max-width: 100%;
+  }
+
+  .form-card h1 {
+    font-size: 1.55rem;
+  }
+}
+
 @media (max-width: 600px) {
   .navbar__inner {
     flex-direction: column;
@@ -312,8 +551,75 @@ main {
     justify-content: center;
   }
 
+  .navbar__toggle {
+    width: 2rem;
+    height: 2rem;
+    font-size: 1rem;
+  }
+
+  .quote-text {
+    font-size: 1.25rem;
+  }
+
+  .quote-page {
+    padding: 1.5rem 1rem;
+  }
+
+  .quote-illustration {
+    max-width: 200px;
+  }
+
+  .create-illustration {
+    margin: 1.5rem auto 0;
+    max-width: 240px;
+  }
+
   .form-card {
     padding: 1rem;
   }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+  }
 }
 
+@media (max-width: 480px) {
+  .navbar__brand {
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+  }
+
+  .navbar__links {
+    gap: 0.75rem;
+  }
+
+  .navbar__link {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .quote-text {
+    font-size: 1.15rem;
+  }
+
+  .sticky-card {
+    padding: 1.1rem;
+  }
+
+  .notes-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .create-illustration {
+    margin: 1.5rem auto 0;
+    max-width: 200px;
+  }
+
+  .create-layout {
+    gap: 1.25rem;
+  }
+}
