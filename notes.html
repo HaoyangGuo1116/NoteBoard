@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>我的便签 | Motivational Notes Board</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__inner">
+        <span class="navbar__brand">Motivational Notes</span>
+        <div class="navbar__links">
+          <a class="navbar__link" href="index.html">Quotes</a>
+          <a class="navbar__link" href="notes.html">My Notes</a>
+          <a class="navbar__link" href="create.html">Create Note</a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <section class="page-container">
+        <header>
+          <h1>My Notes</h1>
+          <p>Review every message you have saved for motivation.</p>
+        </header>
+
+        <div class="loading" data-loading>Loading your notes…</div>
+        <div class="empty-state" data-empty-state style="display: none"></div>
+        <div class="notes-grid"></div>
+      </section>
+    </main>
+
+    <script type="module" src="assets/js/notes.js"></script>
+  </body>
+</html>
+

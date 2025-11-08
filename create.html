@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>创建便签 | Motivational Notes Board</title>
+    <link rel="stylesheet" href="assets/css/style.css" />
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="navbar__inner">
+        <span class="navbar__brand">Motivational Notes</span>
+        <div class="navbar__links">
+          <a class="navbar__link" href="index.html">Quotes</a>
+          <a class="navbar__link" href="notes.html">My Notes</a>
+          <a class="navbar__link" href="create.html">Create Note</a>
+        </div>
+      </div>
+    </nav>
+
+    <main>
+      <section class="page-container">
+        <form class="sticky-card form-card" id="create-note-form">
+          <h1>Create a New Note</h1>
+          <p>Capture what inspires you right now. Once saved, it will appear on your board.</p>
+
+          <div class="form-field">
+            <label for="note-content">Note Content</label>
+            <textarea
+              id="note-content"
+              name="note-content"
+              placeholder="Write your thoughts or a motivating quote…"
+              required
+            ></textarea>
+          </div>
+
+          <div class="form-actions">
+            <button class="btn btn-primary" type="submit" data-submit>Save</button>
+            <button class="btn btn-secondary" type="button" data-cancel>Cancel</button>
+          </div>
+
+          <div class="feedback" data-feedback></div>
+        </form>
+      </section>
+    </main>
+
+    <script type="module" src="assets/js/create-note.js"></script>
+  </body>
+</html>
+
