@@ -6,8 +6,27 @@
   --text-color: #3f3f3f;
   --danger-color: #d9534f;
   --shadow-color: rgba(0, 0, 0, 0.1);
+  --navbar-background: #ffffff;
+  --navbar-border: rgba(0, 0, 0, 0.05);
+  --link-hover-background: rgba(0, 0, 0, 0.05);
+  --toggle-background: rgba(0, 0, 0, 0.05);
+  --toggle-text: #333333;
   --max-width: 960px;
   --transition-fast: 0.2s ease-in-out;
+}
+
+body.dark-theme {
+  --background-color: #0f1115;
+  --card-color: #1f232b;
+  --accent-color: #f0b67f;
+  --text-color: #f3f4f6;
+  --danger-color: #ff6b6b;
+  --shadow-color: rgba(0, 0, 0, 0.45);
+  --navbar-background: #15181f;
+  --navbar-border: rgba(255, 255, 255, 0.08);
+  --link-hover-background: rgba(255, 255, 255, 0.12);
+  --toggle-background: rgba(255, 255, 255, 0.12);
+  --toggle-text: #f3f4f6;
 }
 
 *,
@@ -32,8 +51,8 @@ a {
 }
 
 .navbar {
-  background: white;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: var(--navbar-background);
+  border-bottom: 1px solid var(--navbar-border);
   box-shadow: 0 2px 12px var(--shadow-color);
 }
 
@@ -57,6 +76,12 @@ a {
   font-size: 0.95rem;
 }
 
+.navbar__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .navbar__link {
   padding: 0.35rem 0.75rem;
   border-radius: 999px;
@@ -65,7 +90,30 @@ a {
 
 .navbar__link:hover,
 .navbar__link:focus {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: var(--link-hover-background);
+}
+
+.navbar__toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  background: var(--toggle-background);
+  color: var(--toggle-text);
+  font-size: 1.1rem;
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast),
+    background-color var(--transition-fast);
+}
+
+.navbar__toggle:hover,
+.navbar__toggle:focus-visible {
+  outline: none;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 10px -6px var(--shadow-color);
 }
 
 main {
@@ -254,8 +302,13 @@ main {
     gap: 0.5rem;
   }
 
-  .navbar__links {
+  .navbar__controls {
     width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .navbar__links {
     justify-content: center;
   }
 
